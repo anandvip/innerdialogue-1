@@ -392,7 +392,7 @@
         const API_KEYS = {
             openai: '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',
             mistral: 'ic8ExdQksCSXrL4qo0sm9bdkwtKmDUCm',
-            //gemini: 'AIzaSyBPO0PQ4PltzLQOSGJOxbqnyt-8xAG7ZpA'
+            gemini: 'AIzaSyBPO0PQ4PltzLQOSGJOxbqnyt-8xAG7ZpA'
         };
 
         // DOM Elements
@@ -488,22 +488,30 @@
         }
 
         // AI Prompt Generation System
-        class AIPromptGenerator {
-            static getEndpoint(provider) {
-                const endpoints = {
-                    openai: 'https://api.openai.com/v1/completions',
-                    mistral: 'https://api.mistral.ai/v1/chat/completions',
-                    gemini: "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyBPO0PQ4PltzLQOSGJOxbqnyt-8xAG7ZpA"
-                };
-                return endpoints[provider];
-            }
+       class AIPromptGenerator {
+    static getEndpoint(provider) {
+        const endpoints = {
+            openai: 'https://api.openai.com/v1/chat/completions',
+            mistral: 'https://api.mistral.ai/v1/chat/completions',
+            gemini: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent'
+        };
+        return endpoints[provider];
+    }
 
-            static getHeaders(provider) {
-                return {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${API_KEYS[provider]}`
-                };
-            }
+    static getHeaders(provider) {
+        const headers = {
+            'Content-Type': 'application/json',
+        };
+
+        if (provider === 'gemini') {
+            return headers;
+        }
+
+        return {
+            ...headers,
+            'Authorization': `Bearer ${API_KEYS[provider]}`
+        };
+    }
 
             static getPromptTemplate(keywords, provider) {
                 const templates = {
