@@ -624,11 +624,11 @@
                     elements.journal.saveButton.dataset.editingId = '';
                     elements.journal.saveButton.textContent = 'Save Entry';
                     
-                    await this.refreshEntries();
-                } catch (error) {
-                    ToastSystem.show(error.message, 'error');
-                }
-            }
+                   await (() => this.refreshEntries())();
+    } catch (error) {
+        ToastSystem.show(error.message, 'error');
+    }
+}
 
             static handleEditorInput(event) {
                 const text = event.target.value.trim();
